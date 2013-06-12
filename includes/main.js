@@ -9,6 +9,13 @@
 // UserScriptのincludeだと何回も動いてしまうのでその対策
 if(window.location.href.indexOf("http://www.pixiv.net/") === 0)
 (function(){
+	var createScriptTag = function(content){
+		var s = window.document.createElement("script");
+		s.type = "text/javascript";
+		s.innerHTML = content;
+		return s;
+	};
+
 	// クロージャーで元のapplyを閉じ込めておく
 	var dummyApply = function(orgApply){
 		/*var orgApply = apl;*/
@@ -28,7 +35,7 @@ if(window.location.href.indexOf("http://www.pixiv.net/") === 0)
 			}
 			this.timerId = setTimeout(function(){
 				orgApply.apply(self, [self]);
-			}, "%timeoutcount%" * 1);
+			}, (window.waitaminute.settings.timeout || 3) * 1000);
 		};
 	};
 
@@ -92,15 +99,30 @@ if(window.location.href.indexOf("http://www.pixiv.net/") === 0)
 
 	// Extensionの空間からはページ内のjavascript空間にアクセスできないので、scriptタグを作ってどうにかしのぐ
 	window.addEventListener('DOMContentLoaded', function(){
-		var settings = (window.widget && widget.preferences) ? widget.preferences : (localStorage ||{});
-		var timeoutcount = (settings.timeout || 3) * 1000;
-		var s = window.document.createElement("script");
-		s.type = "text/javascript";
+		var s = createScriptTag("");
 		s.innerHTML = "\n$(function(){\n" +
 			"pixiv.rating.update = " + dummyUpdate.toString() + "(pixiv.rating.update);\n" +
 			"pixiv.rating.clear = " + dummyClear.toString() + "(pixiv.rating.clear);\n" +
-			"pixiv.rating.apply = " + dummyApply.toString().replace("%timeoutcount%", timeoutcount) + "(pixiv.rating.apply);\n" +
+			"pixiv.rating.apply = " + dummyApply.toString() + "(pixiv.rating.apply);\n" +
 			"!" + swapClickEvent.toString() + "();" + "});\n";
 		window.document.head.appendChild(s);
 	}, false);
+
+	var w = window;
+	if(window.opera)
+	opera.extension.onmessage = function(e){
+		if(e.data.type === "ready"){
+			e.source.postMessage({type: "request", value: "settings"});
+		}else if(e.data.type === "response"){
+			w.waitaminute = w.waitaminute || {};
+			w.waitaminute.settings = e.data.value;
+		}
+	};
+	if(window.chrome)
+	chrome.runtime.sendMessage({type:"request", value:"settings"}, function(response){
+		if(response.type === "response"){
+			window.document.head.appendChild(createScriptTag("window.waitaminute = window.waitaminute || {};\n" + 
+			"window.waitaminute.settings = " + JSON.stringify(response.value) + ";"));
+		}
+	});
 })();
