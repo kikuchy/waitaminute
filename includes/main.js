@@ -28,7 +28,7 @@ if(window.location.href.indexOf("http://www.pixiv.net/") === 0)
 			}
 			this.timerId = setTimeout(function(){
 				orgApply.apply(self, [self]);
-			}, 3000);
+			}, "%timeoutcount%" * 1);
 		};
 	};
 
@@ -92,12 +92,14 @@ if(window.location.href.indexOf("http://www.pixiv.net/") === 0)
 
 	// Extensionの空間からはページ内のjavascript空間にアクセスできないので、scriptタグを作ってどうにかしのぐ
 	window.addEventListener('DOMContentLoaded', function(){
+		var settings = (window.widget && widget.preferences) ? widget.preferences : (localStorage ||{});
+		var timeoutcount = (settings.timeout || 3) * 1000;
 		var s = window.document.createElement("script");
 		s.type = "text/javascript";
 		s.innerHTML = "\n$(function(){\n" +
 			"pixiv.rating.update = " + dummyUpdate.toString() + "(pixiv.rating.update);\n" +
 			"pixiv.rating.clear = " + dummyClear.toString() + "(pixiv.rating.clear);\n" +
-			"pixiv.rating.apply = " + dummyApply.toString() + "(pixiv.rating.apply);\n" +
+			"pixiv.rating.apply = " + dummyApply.toString().replace("%timeoutcount%", timeoutcount) + "(pixiv.rating.apply);\n" +
 			"!" + swapClickEvent.toString() + "();" + "});\n";
 		window.document.head.appendChild(s);
 	}, false);

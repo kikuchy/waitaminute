@@ -3,6 +3,7 @@
 	"version": "0.1",
 	"name": "wait a minute",
 	"description": "イラストSNS pixivの評価を、少しの間だけやり直せるようにします。",
+	"options_page": "options.html",
 	"permissions": ["http://*.pixiv.net/"],
 	"content_scripts": [{
 		"run_at": "document_start",
