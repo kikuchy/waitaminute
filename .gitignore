@@ -1,3 +1,4 @@
+*.oex
 pom.xml
 *jar
 /lib/
