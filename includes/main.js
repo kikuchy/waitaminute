@@ -22,7 +22,7 @@ if(window.location.href.indexOf("http://www.pixiv.net/") === 0)
 		return function(e){
 			var self = this;
 			// 評価押下後にページを離れるときは即時送信
-			if(e.type.indexOf("unload") > -1){
+			if(!e.type || e.type.indexOf("unload") > -1){
 				orgApply.apply(self, [self]);
 				return;
 			}
