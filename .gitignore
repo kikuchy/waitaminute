@@ -1,4 +1,6 @@
 *.oex
+*.crx
+*.pem
 pom.xml
 *jar
 /lib/

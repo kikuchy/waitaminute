@@ -1,0 +1,18 @@
+{
+	"manifest_version": 2,
+	"version": "0.1",
+	"name": "wait a minute",
+	"description": "イラストSNS pixivの評価を、少しの間だけやり直せるようにします。",
+	"permissions": ["http://*.pixiv.net/"],
+	"content_scripts": [{
+		"run_at": "document_start",
+		"js": ["includes/main.js"],
+		"matches": [
+			"http://www.pixiv.net/member_illust.php?*mode=manga*&illust_id=*",
+			"http://www.pixiv.net/member_illust.php?*illust_id=*&mode=manga*",
+			"http://www.pixiv.net/member_illust.php?*mode=medium*&illust_id=*",
+			"http://www.pixiv.net/member_illust.php?*illust_id=*&mode=medium*",
+			"http://www.pixiv.net/novel/show.php?id=*"
+		]
+	}]
+}
