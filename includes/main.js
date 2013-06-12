@@ -15,7 +15,7 @@ if(window.location.href.indexOf("http://www.pixiv.net/") === 0)
 		return function(e){
 			var self = this;
 			// 評価押下後にページを離れるときは即時送信
-			if(e.type === "unload"){
+			if(e.type.indexOf("unload") > -1){
 				orgApply.apply(self, [self]);
 				return;
 			}
@@ -81,15 +81,17 @@ if(window.location.href.indexOf("http://www.pixiv.net/") === 0)
 			.mousemove(function(e){ pixiv.rating.update(e.pageX, e.pageY); })
 			.mouseleave($.proxy(pixiv.rating.clear, pixiv.rating));
 		pixiv.user.loggedIn && pixiv.rating.ratingContainer.click($.proxy(pixiv.rating.apply, pixiv.rating));
-		$(window).unload(function(e){
-			if(pixiv.rating.timerId)
+		var unloadedEventHandler = function(e){
+			if(pixiv.rating.timerId){
 				pixiv.rating.apply.apply(pixiv.rating, [e]);
-		});
+			}
+		};
+		// chromeではunloadのタイミングではrate送信が間に合わないので、beforeunloadでrateを送る
+		window.addEventListener(((window.onbeforeunload !== undefined) ? 'beforeunload' : "unload"), unloadedEventHandler, false);
 	};
 
 	// Extensionの空間からはページ内のjavascript空間にアクセスできないので、scriptタグを作ってどうにかしのぐ
 	window.addEventListener('DOMContentLoaded', function(){
-		//console.log(dummyApply.toString());
 		var s = window.document.createElement("script");
 		s.type = "text/javascript";
 		s.innerHTML = "\n$(function(){\n" +
