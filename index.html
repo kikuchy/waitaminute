@@ -4,22 +4,32 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Waitaminute : イラストSNS pixivの評価を、少しの間だけやり直せるようにするプラグイン" />
+    <meta name="description" content="wait a minute : イラストSNS pixivの評価を、少しの間だけやり直せるようにするブラウザ拡張機能" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Waitaminute</title>
+    <title>wait a minute</title>
   </head>
 
   <body>
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/kikuchy/waitaminute">View on GitHub</a>
 
-          <h1 id="project_title">Waitaminute</h1>
-          <h2 id="project_tagline">イラストSNS pixivの評価を、少しの間だけやり直せるようにするプラグイン</h2>
+          <h1 id="project_title">wait a minute</h1>
+          <h2 id="project_tagline">イラストSNS pixivの評価を、少しの間だけやり直せるようにするブラウザ拡張機能</h2>
+	  <p><a href="https://twitter.com/share" class="twitter-share-button" data-text="wait a minute : pixivの評価を、少しの間だけやり直せるようにするブラウザ拡張機能" data-lang="ja">ツイート</a>
+	  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script><div class="fb-like" data-href="http://kikuchy.github.io/waitaminute/" data-send="false" data-width="450" data-show-faces="true"></div></p>
 
             <section id="downloads">
               <a class="zip_download_link" href="waitaminute.crx">Google Chrome用 wait a minuteをダウンロード</a>
@@ -39,6 +49,8 @@
 <p>「１０点入れるつもりが、手が滑って９点に入れてしまった…」</p>
 
 <p>wait a minuteが、そんな後悔をこの世から消し去ります。</p>
+
+<p><img src="images/before.png" alt="間違って点を入れてしまっても…" style="display:inline-block;" /> <img src="images/after.png" alt="点を入れ直せる！" style="display:inline-block;" /></p>
 
 <h2>
 <a name="" class="anchor" href="#"><span class="octicon octicon-link"></span></a>概要</h2>
@@ -63,9 +75,11 @@
 
 <h3>Google Chrome</h3>
 <p>アドレスバーに<code>chrome://extensions/</code>と入力し、出て来たウィンドウに、ダウンロードした<code>waitaminute.crx</code>をドラッグしてください。『「wait a minute」を追加しますか？』と聞かれるので、「追加」を押してください。</p>
+<p><img src="images/install_chrome1.png" /> <img src="images/install_chrome2.png" /></p>
 
 <h3>Opera</h3>
 <p>Operaを起動したら、ウィンドウの中に、ダウンロードした<code>waitaminute.oex</code>をドラッグしてください。『拡張機能をインストールしますか？』と聞かれるので、『インストール』を押してください。</p>
+<p><img src="images/install_opera1.png" /> <img src="images/install_opera2.png" /></p>
 
 <h2>
 <a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
